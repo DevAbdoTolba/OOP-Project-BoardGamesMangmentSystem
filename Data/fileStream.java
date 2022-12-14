@@ -18,8 +18,8 @@ public class fileStream {
 
             BufferedWriter writer = new BufferedWriter(new FileWriter("Data\\outPut.csv"));
             String currentFileData = readFromFile();
-
-            writer.write(String.join(",", currentFileData) + "\n");
+            String newData = "";
+            writer.write(String.join(",", currentFileData) + "\n" + newData);
 
             writer.close();
         } catch (IOException e1) {
