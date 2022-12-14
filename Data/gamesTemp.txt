@@ -1,0 +1,3 @@
+GameName,score,players,rate
+BankElHaz,1200,NaN,3
+Monopoly,NaN,4,4

@@ -1,9 +1,31 @@
 package main;
 
+
+import Data.fileStream;
+
+public class Main{
+    public static void main(String args[]){
+
+
+
 import java.util.ArrayList;
 import java.util.Vector;
 
 public class Main {
+  /*
+          fileStream fs = new fileStream();
+        // ! TO ADD NEW DATA TO THE FILE, String newData = "gameName,score,playersNum,....";
+        String mainPath = "Data\\games.txt";
+        String tempPath = "Data\\gamesTemp.txt";
+        int printOrNot = 1; 
+        String newData = "";
+
+        // fs.writeToFile("Data\\games.txt","Data\\gamesTemp.txt","",1);  // write
+        // fs.deleteRow(mainPath, tempPath, newData, 0,"ticTac"); // delete
+        // String[] row = fs.indexLine(mainPath, 1); // ! INDEX 0 IS THE TITLES START FROM 1
+        // TODO: print all data
+  */
+  
     int value;
     int number_of_players;
     String name_of_players;
@@ -83,5 +105,6 @@ public class Main {
                 in = pl.nextLine();
             }
         }
+
     }
 }
