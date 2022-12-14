@@ -81,6 +81,41 @@ public class fileStream {
 
     }
 
+    public String[] returLastRow(){
+        /*
+         * Return last row
+         * a method to return the last row of a file
+         */
+        String[] lastRow = null;
+
+
+        BufferedReader reader = null; // Reader Object
+        String path = "Data\\games.csv"; // Path to file
+        String line = ""; // String where will store every line from file
+        String currentFileData = "";
+
+        try {
+
+            reader = new BufferedReader(new FileReader(path)); // * instance of BufferedReader
+            while ((line = reader.readLine()) != null) { // * assign line to reader.readLine() and check if it's not
+                                                         // * null to read all file
+                String[] row = line.split(","); // * split the line scanned at every "," and assign to row to be
+                lastRow = row;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } // * close the reader
+
+        }
+
+        return lastRow;
+    }
+
     public String convString(String[] str){
         /*
          * Convert to String
