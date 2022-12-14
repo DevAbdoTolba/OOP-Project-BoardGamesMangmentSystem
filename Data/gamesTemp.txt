@@ -2,3 +2,4 @@ GameName,score,players,rate
 BankElHaz,1200,NaN,3
 Monopoly,NaN,4,4
 Amr,8,500,0
+Tolba,NaN,NaN,0

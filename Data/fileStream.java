@@ -305,7 +305,7 @@ public class fileStream {
         int i = 0;
         try {
 
-            reader = new BufferedReader(new FileReader(path)); // * instance of BufferedReader
+            reader = new BufferedReader(new FileReader(mainPath)); // * instance of BufferedReader
             while ((line = reader.readLine()) != null) { // * assign line to reader.readLine() and check if it's not
                 String[] row = line.split(","); // * split the line scanned at every "," and assign to row to be
                 if (i++ == index) {
