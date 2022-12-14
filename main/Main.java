@@ -1,23 +1,24 @@
+
 package main;
 
+import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Vector;
+
 
 public class Main {
-    static Scanner input = new Scanner(System.in);
 
-    public void main(String args[]) {
+    
 
-        System.out.println("HelloWOrld");
-    }
 
-    public void choosingGameMenu() {
-
+    public static void main(String[] args) {
+        
+        
+        Scanner input = new Scanner(System.in);
         int NumGame; // instance NumGame Variable
-        Vector<String> Games = new Vector<>(); // instance vector for storing Game Names
-        Games.add("BankElhaz"); // add vector element
-        Games.add("Monopoly"); // add vector element
-        System.out.println("Chose game number"); // print menu list
+        ArrayList<String> Games = new ArrayList<>(); // instance ArrayList for storing Game Names
+        Games.add("BankElhaz"); // add ArrayList element
+        Games.add("Monopoly"); // add ArrayList element
+        System.out.println("Choose game number"); // print menu list
 
         for (int i = 0; i < Games.size(); i++) // loop to print game choices
         {
@@ -29,12 +30,15 @@ public class Main {
         }
 
         NumGame = input.nextInt(); // input the user choice to play
-        // if(NumGame > Games.size()) // a condition to let user create a new game
-        // {
-        // AddNewGame(); // Add New Game Method //todo: this function must have a Games.add to add the new game which created by the user stored in the vector
-        // }
-        // else
-        // setGame(Games.get(NumGame-1)); // to enter the game ;
-
-    }
-}
+         if(NumGame > Games.size()) // a condition to let user create a new game
+         {        
+        String GameName;
+        GameName = input.next(); // Input The Name of The New Game
+        System.out.println("Enter New Game Name: ");
+        Games.add(GameName); // Add the new game to the ArrayList 
+             
+        
+         }
+       
+    
+         }}
