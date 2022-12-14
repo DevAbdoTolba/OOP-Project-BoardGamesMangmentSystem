@@ -7,13 +7,55 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class fileStream {
-    public static void main(String[] args) {
-        String mainPath = "Data\\games.csv"; // storing the main path to the file
-        String tempPath = "Data\\outPut.csv"; // storing the temp path to the output file
-        String newData = ""; // new data to be added to the file, should be in the format of a row
+    // public static void main(String[] args) {
+    String mainPath ; // storing the main path to the file
+    String tempPath ; // storing the temp path to the output file
+    String newData ; // new data to be added to the file, should be in the format of a row
         
-        fileStream fs = new fileStream();
-        fs.writeToFile(mainPath,tempPath,newData);
+    //     fileStream fs = new fileStream();
+    //     fs.writeToFile(mainPath,tempPath,newData);
+    // }
+
+    public fileStream() {
+        mainPath = "Data\\games.csv"; 
+        tempPath = "Data\\outPut.csv";
+        newData = "";
+    }
+
+    public fileStream(String newData) {
+        this();
+        this.newData = newData;
+    }
+
+    public fileStream(String mainPath, String tempPath, String newData) {
+        this.mainPath = mainPath;
+        this.tempPath = tempPath;
+        this.newData = newData;
+    }
+
+    // setters and getters
+    public String getMainPath() {
+        return mainPath;
+    }
+
+    public void setMainPath(String mainPath) {
+        this.mainPath = mainPath;
+    }
+
+    public String getTempPath() {
+        return tempPath;
+    }
+
+    public void setTempPath(String tempPath) {
+        this.tempPath = tempPath;
+    }
+
+    public String getNewData() {
+        return newData;
+    }
+
+    public void setNewData(String newData) {
+        this.newData = newData;
     }
 
     public void writeToFile(String mainPath,String tempPath, String newData) {
