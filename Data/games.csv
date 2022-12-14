@@ -1,0 +1,3 @@
+GameName, isScore, isPlayer,score,nPlayers,items
+BankElHaz, true, true, 1200,4,bagdad kkahira alexandria
+Monopoly, false,false,NaN,NaN,city Big
