@@ -1,5 +1,5 @@
+package main.Classes;
 
-//package javaapplication7;
 
 import java.util.ArrayList; // import the ArrayList class
 
@@ -120,12 +120,12 @@ public class Player {
     
     
 
-        // ToString Method To print the information about the player 
+        // // ToString Method To print the information about the player 
         
-        @Override
-        public String toString() {
-            return "Player{" + "name=" + name + ", score=" + score + ", IsIn=" + IsIn + ", Items=" + Items + ", History=" + History + '}';
-        }
+        // @Override
+        // public String toString() {
+        //     return "Player{" + "name=" + name + ", score=" + score + ", IsIn=" + IsIn + ", Items=" + Items + ", History=" + History + '}';
+        // }
     
 
 }

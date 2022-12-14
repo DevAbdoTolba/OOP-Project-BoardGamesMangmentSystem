@@ -1,4 +1,4 @@
-
+package Interface;
 
 public interface GameInterface {
     
