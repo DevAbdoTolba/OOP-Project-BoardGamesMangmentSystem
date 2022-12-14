@@ -10,11 +10,19 @@ public class Player {
     private int score;
     boolean IsIn;
 
+    // the instance of Arraylists 
+    ArrayList<String> Items = new ArrayList<String>(); // Create an ArrayList object
+    ArrayList<String> History = new ArrayList<String>(); // Create an ArrayList object
+
+
 
     // Constructors 
     
     // Default Constructor
     public Player() {
+        this.name = "Player";
+        this.score = 0;
+        this.IsIn = true;
     }
     // parametrized Constructor 
     public Player(String name, int score, boolean IsIn) {
@@ -87,10 +95,7 @@ public class Player {
     
     
     
-    // the instance of Arraylists 
-    ArrayList<String> Items = new ArrayList<String>(); // Create an ArrayList object
-    ArrayList<String> History = new ArrayList<String>(); // Create an ArrayList object
-
+    
     
     // Methods 
         public int Calculate_Score(int value , char sign) // a method to calculate the score

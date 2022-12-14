@@ -1,5 +1,6 @@
 package main;
 
+import java.io.IOException;
 import java.util.Scanner;
 import Data.fileStream;
 import main.Classes.Player;
@@ -32,12 +33,13 @@ public class Main {
 
         pl1.mainMenu(); // main menu to chose the game
         String[] currentLine = fs.indexLine(mainPath, choice); // get the current line of the game
-        System.out.println(currentLine[2]);
         if(Integer.valueOf(currentLine[2]) > 0){
             System.out.println("Number of players : " + currentLine[2]);
             number_of_players = Integer.valueOf(currentLine[2]);
             players = new Player[number_of_players];
             for(int i = 0; i < number_of_players; i++){
+                System.out.print("Enter the name of player " + (i + 1) + " : ");
+                players[i] = new Player();
                 players[i].setName(sc.next());
             }
         } else {
@@ -75,6 +77,20 @@ public class Main {
 
         
         // ! STARTING THE GAME
+        System.out.println("\nSHALL THE GAME START NOW!\n\n");
+        while (true) {
+            try {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } catch (InterruptedException | IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            printPlayers(players, number_of_players);
+            System.out.println("Which player do you want to edit?\n type in range (1:" + number_of_players + ")");
+            int index = sc.nextInt();
+            sc.nextLine();
+            editPlayers(players, index - 1);
+        }
 
     }
 
@@ -82,6 +98,7 @@ public class Main {
      * Mathods
      * 
      */
+
 
     public void mainMenu() {
 
@@ -141,5 +158,92 @@ public class Main {
             }
         }
 
+        static void printPlayers(Player[] players,int numOfPlayers) {
+            for (int i = 0; i < numOfPlayers; ++i) {
+                System.out.println(i + 1 + "-" + players[i].getName() + ": " + players[i].getScore());
+            }
+        }
+
+        static void editPlayers(final Player[] players, final int i) {
+            System.out.println("to edit (" + players[i].getName() + ") Enter an operation (+, -, * or /)");
+            while (true) {
+                switch (sc.next().charAt(0)) {
+                    case '+': {
+                        System.out.println("How much to add?");
+                        int edit = sc.nextInt();
+                        System.out.println("(" + players[i].getName() + ") Will be " + (players[i].getScore() + edit));
+                        System.out.println("To confirm enter (y/n)");
+                        final char ckEdit = sc.next().charAt(0);
+                        if (ckEdit == 'n' || ckEdit == 'N') {
+                            return;
+                        }
+                        if (ckEdit == 'y' || ckEdit == 'Y') {
+                           
+                            players[i].setScore(players[i].getScore()+edit) ;
+                            System.out.println("(" + players[i].getName() + ") score is now: " + players[i].getScore() + "\n");
+                            return;
+                        }
+                        continue;
+                    }
+                    case '-': {
+                        System.out.println("How much to sub?");
+                        final int edit = sc.nextInt();
+                        System.out.println("(" + players[i].getName() + ") Will be " + (players[i].getScore() - edit));
+                        System.out.println("To confirm enter (y/n)");
+                        final char ckEdit = sc.next().charAt(0);
+                        if (ckEdit == 'n' || ckEdit == 'N') {
+                            return;
+                        }
+                        if (ckEdit == 'y' || ckEdit == 'Y') {
+                            
+                            players[i].setScore(players[i].getScore()-edit) ;
+
+                            System.out.println("(" + players[i].getName() + ") score is now: " + players[i].getScore() + "\n");
+                            return;
+                        }
+                        continue;
+                    }
+                    case '*': {
+                        System.out.println("How much to multiply?");
+                        final int edit = sc.nextInt();
+                        System.out.println("(" + players[i].getName() + ") Will be " + players[i].getScore() * edit);
+                        System.out.println("To confirm enter (y/n)");
+                        final char ckEdit = sc.next().charAt(0);
+                        if (ckEdit == 'n' || ckEdit == 'N') {
+                            return;
+                        }
+                        if (ckEdit == 'y' || ckEdit == 'Y') {
+                            players[i].setScore(players[i].getScore()*edit) ;
+                            
+                            System.out.println("(" + players[i].getName() + ") score is now: " + players[i].getScore() + "\n");
+                            return;
+                        }
+                        continue;
+                    }
+                    case '/': {
+                        System.out.println("How much to divide?");
+                        final int edit = sc.nextInt();
+                        System.out.println("(" + players[i].getName() + ") Will be " + players[i].getScore() / edit);
+                        System.out.println("To confirm enter (y/n)");
+                        final char ckEdit = sc.next().charAt(0);
+                        if (ckEdit == 'n' || ckEdit == 'N') {
+                            return;
+                        }
+                        if (ckEdit == 'y' || ckEdit == 'Y') {
+                            players[i].setScore(players[i].getScore()/edit) ;
+                            
+                            System.out.println("(" + players[i].getName() + ") score is now: " + players[i].getScore() + "\n");
+                            return;
+                        }
+                        continue;
+                    }
+                    default: {
+                        System.out.println("Please make sure to choose from (+, -, * or /)");
+                    }
+                }
+            }
+        }
+    
+    
 
 }
