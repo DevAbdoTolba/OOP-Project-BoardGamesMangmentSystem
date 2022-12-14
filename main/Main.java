@@ -1,14 +1,16 @@
 package main;
+
 import java.util.ArrayList;
 import java.util.Vector;
+
 public class Main {
     int value;
-    int  number_of_players;
+    int number_of_players;
     String name_of_players;
     int score = 0;
     String in;
     static Scanner pl = new Scanner(System.in);
-    static Main pl1=new Main();
+    static Main pl1 = new Main();
 
     public static void main(String args[]) {
 
@@ -16,17 +18,18 @@ public class Main {
         ArrayList<String> games = new ArrayList<String>();
         ArrayList<String> Items = new ArrayList<String>();
         pl1.addPlayers();
-          pl1.score();
-          pl1.fixedValue();
-    }`
+        pl1.score();
+        pl1.fixedValue();
+    }
 
-    public void choosingGameMenu() {
+    public void mainMenu() {
 
+        Scanner input = new Scanner(System.in);
         int NumGame; // instance NumGame Variable
-        Vector<String> Games = new Vector<>(); // instance vector for storing Game Names
-        Games.add("BankElhaz"); // add vector element
-        Games.add("Monopoly"); // add vector element
-        System.out.println("Chose game number"); // print menu list
+        ArrayList<String> Games = new ArrayList<>(); // instance ArrayList for storing Game Names
+        Games.add("BankElhaz"); // add ArrayList element
+        Games.add("Monopoly"); // add ArrayList element
+        System.out.println("Choose game number"); // print menu list
 
         for (int i = 0; i < Games.size(); i++) // loop to print game choices
         {
@@ -38,47 +41,47 @@ public class Main {
         }
 
         NumGame = input.nextInt(); // input the user choice to play
-        // if(NumGame > Games.size()) // a condition to let user create a new game
-        // {
-        // AddNewGame(); // Add New Game Method //todo: this function must have a Games.add to add the new game which created by the user stored in the vector
-        // }
-        // else
-        // setGame(Games.get(NumGame-1)); // to enter the game ;
+        if (NumGame > Games.size()) // a condition to let user create a new game
+        {
+            String GameName;
+            GameName = input.next(); // Input The Name of The New Game
+            System.out.println("Enter New Game Name: ");
+            Games.add(GameName); // Add the new game to the ArrayList
+
+        }
 
     }
-  
+
     public void addPlayers() {
         System.out.println("Enter the number of players");
         number_of_players = pl.nextInt();
         for (int i = 0; i < number_of_players; i++) {
             System.out.println("Enter the name of player " + (i + 1));
-            name_of_players  = pl.next();
+            name_of_players = pl.next();
         }
 
     }
 
-     public void score() {
+    public void score() {
         int score = 0;
         for (int i = 0; i < number_of_players; i++) {
             System.out.println("Enter the score of player " + (i + 1));
-                      score = pl.nextInt();
-        }
-            
+            score = pl.nextInt();
         }
 
-    
+    }
 
-     public void fixedValue() {
-      
+    public void fixedValue() {
+
         System.out.println("are the values fixed? (1 for yes, 0 for no)");
-        if(pl.nextInt() == 1){
-        System.out.println("Enter the value");    
-        in = pl.nextLine();}
-        else{   
-        for(int i = 0; i < number_of_players; i++){
-            System.out.println("Enter the value of player " + (i+1));
+        if (pl.nextInt() == 1) {
+            System.out.println("Enter the value");
             in = pl.nextLine();
+        } else {
+            for (int i = 0; i < number_of_players; i++) {
+                System.out.println("Enter the value of player " + (i + 1));
+                in = pl.nextLine();
+            }
         }
     }
-     }
 }
