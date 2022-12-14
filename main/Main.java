@@ -10,7 +10,11 @@ public class Main{
         String tempPath = "Data\\gamesTemp.txt";
         int printOrNot = 1; 
         String newData = "";
-        // fs.writeToFile("Data\\games.txt","Data\\gamesTemp.txt","",1);
-        fs.deleteRow(mainPath, tempPath, newData, 0,"ticTac");
+
+        // fs.writeToFile("Data\\games.txt","Data\\gamesTemp.txt","",1);  // write
+        // fs.deleteRow(mainPath, tempPath, newData, 0,"ticTac"); // delete
+        // String[] row = fs.indexLine(mainPath, 1); // ! INDEX 0 IS THE TITLES START FROM 1
+        // TODO: print all data
+
     }
 }
