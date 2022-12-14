@@ -2,7 +2,7 @@ package main;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import Data.fileStream;
 
 public class Main {
     int value;
@@ -35,7 +35,10 @@ public class Main {
         Games.add("BankElhaz"); // add ArrayList element
         Games.add("Monopoly"); // add ArrayList element
 
-
+        for(int i = 0; i < Games.size(); i++) {
+            System.out.println(Games.get(i));
+        }
+        
         
         System.out.println("Choose game number"); // print menu list
 
@@ -101,7 +104,7 @@ public class Main {
         System.out.println("Enter the value: ");
         value = sc.nextInt();
         for (int i = 0; i < number_of_players; i++) {
-            System.out.println("The value of player " + (i + 1) + value);
+            System.out.println("The value of player " + (i + 1)+ " : " + value);
         }
   }
 }
