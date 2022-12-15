@@ -74,6 +74,8 @@ public class Game extends Player {
     public int fixedScore;
     public String[] gameInfo;
 
+    int numberOfPlayersGaming = 0;
+
     // objects
     public fileStream fs = new fileStream(); // instance fileStream class
     public Scanner sc = new Scanner(System.in); // instance Scanner class
@@ -129,6 +131,12 @@ public class Game extends Player {
 
     public void rate(int index) {
         o.cls();
+        for(int i = 0 ; i < numOfPlayers; i++){
+            if(players[i].getIsIn()){
+                System.out.println("The winner is " + players[i].getName() + " with score " + players[i].getScore());
+                break;
+            }
+        }
         while (true) {
             System.out.println("Rate the game (1-5)");
             String[] gameInfo = fs.indexLine(mainPath, index);
@@ -156,18 +164,29 @@ public class Game extends Player {
     }
 
     public void start() {
+        System.out.println("Number of players in game: " + numberOfPlayersGaming);
+
         o.cls();
         System.out.println("\nSHALL " + fs.indexLine(mainPath, gameChoice)[0] + " START NOW!\n\n");
-        while (true) {
+        while (!(numberOfPlayersGaming == 1)) {
+            System.out.println(numberOfPlayersGaming);
             // Sorting players by socre which is gameInfo[1]
             System.out.println("Enter -980 to Exit game");
 
             for (int i = 0; i < numOfPlayers; i++) {
                 for (int j = i + 1; j < numOfPlayers; j++) {
-                    if (players[i].getScore() < players[j].getScore()) {
+                    if(!players[i].getIsIn()){
                         Player temp = players[i];
-                        players[i] = players[j];
-                        players[j] = temp;
+                        players[i] = players[numOfPlayers-1];
+                        players[numOfPlayers - 1] = temp;
+                    }
+                     else if ((players[i].getScore() < players[j].getScore())) {
+                        
+
+                            Player temp = players[i];
+                            players[i] = players[j];
+                            players[j] = temp;
+
                     }
                 }
             }
@@ -187,6 +206,11 @@ public class Game extends Player {
             }
             o.cls();
         }
+        o.cls();
+        System.out.println("Game finished");
+        // Print the winner name with score
+       
+        rate(gameChoice);
     }
 
 
@@ -220,25 +244,45 @@ public class Game extends Player {
 
     public void inOutPlayer() {
         o.cls();
-        // print all players
+        int ck = 0;
+        String name = "";
         for (int i = 0; i < numOfPlayers; i++) {
             System.out.println((i + 1) + "- " + players[i].toString());
         }
         System.out.println("Enter player name");
         System.out.println("type -2 to go Back");
-        String name = sc.next();
-        if( !name.equals("-2") ){
-            for (int i = 0; i < numOfPlayers; i++) {
-                if (players[i].getName().equals(name)) {
-                    if (players[i].getIsIn()) {
-                        players[i].setIsIn(false);
-                        System.out.println("Player " + name + " is out");
-                    } else {
-                    players[i].setIsIn(true);
-                    System.out.println("Player " + name + " is in");
-                }
+        
+        while( ! name.equals("-2") ){
+        o.cls();
+        for (int i = 0; i < numOfPlayers; i++) {
+            System.out.println((i + 1) + "- " + players[i].toString());
+        }
+        System.out.println("Enter player name");
+        if (ck == 0) {
+                System.out.println("Player not found");
+        }
+        // print all players
+        System.out.println("type -2 to go Back");
+        name = sc.next();
+            if( !name.equals("-2") ){
+                for (int i = 0; i < numOfPlayers; i++) {
+                    if (players[i].getName().equals(name)) {
+                        if (players[i].getIsIn()) {
+                            players[i].setIsIn(false);
+                            System.out.println("Player " + name + " is out");
+                        } else {
+                            players[i].setIsIn(true);
+                            System.out.println("Player " + name + " is in");
+                        }
+                        numberOfPlayersGaming--;
+                        ck = 1;
+                        return;
+                    } // nothing found
+                   
             }
         }
+        
+
     }
 }
 
@@ -288,6 +332,8 @@ public class Game extends Player {
                     o.cls();
                     return;
                 }
+                numberOfPlayersGaming--;
+
             }
             System.out.println("Player not found");
         }
@@ -372,6 +418,13 @@ public class Game extends Player {
         } else {
             System.out.print("Enter the number of players : ");
             numOfPlayers = sc.nextInt();
+            // must be more than 1 player
+            while (numOfPlayers < 1) {
+                System.out.println("Invalid input");
+                System.out.print("Enter the number of players : ");
+                numOfPlayers = sc.nextInt();
+            }
+            numberOfPlayersGaming = numOfPlayers;
             players = new Player[numOfPlayers];
             for (int i = 0; i < numOfPlayers; i++) {
                 System.out.print("Enter the name of player " + (i + 1) + " : ");
@@ -426,8 +479,16 @@ public class Game extends Player {
         fixed = sc.nextInt();
         if (fixed == 1) {
             System.out.print("Number of players : ");
-            numOfPlayers = sc.nextInt();
+            // must be more than 1 player
 
+
+            numOfPlayers = sc.nextInt();
+            while (numOfPlayers < 1) {
+                System.out.println("Invalid input");
+                System.out.print("Enter the number of players : ");
+                numOfPlayers = sc.nextInt();
+            }
+            
         } else if (fixed == 0) {
         } else {
             System.out.println("Invalid input\n\n");

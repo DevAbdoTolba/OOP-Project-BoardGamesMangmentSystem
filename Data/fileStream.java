@@ -214,6 +214,7 @@ public class fileStream {
     }
 
     public void deleteRow(String mainPath, String tempPath, String newData, int printOrNot, String delete) {
+        printOrNot = 0;
         BufferedReader reader = null; // Reader Object
         String line = ""; // String where will store every line from file
         String currentFileData = "";
