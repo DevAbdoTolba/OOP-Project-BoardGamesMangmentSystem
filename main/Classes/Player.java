@@ -25,10 +25,9 @@ public class Player {
         public Player() {
         }
         // parametrized Constructor 
-        public Player(String name, int score, boolean IsIn) {
+        public Player(String name, int score) {
             this.name = name;
             this.score = score;
-            this.IsIn = IsIn;
         }
 
 

@@ -1,10 +1,10 @@
 GameName,score,players,rate
 BankElHaz,1200,NaN,3
 Monopoly,NaN,4,4
-TestingRate,50,2,2.5
-Testing,90,8,0
 testingForZiad,NaN,2,2.5
 Amr,500,8,2.5
 Test,40,2,7.5
 Tolba,NaN,NaN,5.0
-ZOZ,NaN,NaN,0
+ZOZ,NaN,NaN,6.0
+tictok,50,2,2.0
+TestingRate,50,2,4.0

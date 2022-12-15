@@ -8,10 +8,11 @@ import main.util.Output;
 
 public class Game extends Player {
 
-    public static void main(String[] args) {
-        Game game = new Game();
-        game.start();
-    }
+    // TODO: If only player remaning PRINT WINNER and exit
+
+    // TODO: add option to out/in a player
+
+    // TODO: adding history for every player and every player can show his history, histoyry is lost after every session
 
     // method to sort all games depnding on rate and print all of them after
     // clearing the screen
@@ -98,7 +99,7 @@ public class Game extends Player {
         this.scoreOfPlayers = 0;
         o.cls();
         mainMenu();
-        playerSetting();
+        playersSetup();
 
     }
 
@@ -113,7 +114,7 @@ public class Game extends Player {
         this.scoreOfPlayers = 0;
         o.cls();
         mainMenu();
-        playerSetting();
+        playersSetup();
 
     }
 
@@ -126,6 +127,7 @@ public class Game extends Player {
             String[] gameInfo = fs.indexLine(mainPath, index);
             float rating = sc.nextFloat();
             if (rating > 5 || rating < 0) {
+                o.cls();
                 System.out.println("Invalid rating");
                 continue;
             }
@@ -138,17 +140,193 @@ public class Game extends Player {
                 else
                     newData += "," + gameInfo[i];
             }
-            fs.writeToFile(mainPath, tempPath, newData, index);
 
             System.out.println("Game rated successfully");
             // print game rate
-            System.out.println("Game rate: " + gameInfo[3] + "\n\n");
+            System.out.println(gameInfo[0] + " rate: " + gameInfo[3] + "\n\n");
             System.exit(0);
         }
     }
 
-    public void playerSetting() {
-        
+    public void start() {
+        o.cls();
+        System.out.println("\nSHALL " + fs.indexLine(mainPath, gameChoice)[0] + " START NOW!\n\n");
+        while (true) {
+            // Sorting players by socre which is gameInfo[1]
+            System.out.println("Enter -980 to Exit game");
+
+            for (int i = 0; i < numOfPlayers; i++) {
+                for (int j = i + 1; j < numOfPlayers; j++) {
+                    if (players[i].getScore() < players[j].getScore()) {
+                        Player temp = players[i];
+                        players[i] = players[j];
+                        players[j] = temp;
+                    }
+                }
+            }
+
+            printPlayers(players, numOfPlayers);
+            System.out.println("Which player do you want to edit?\n type in range (1:" + numOfPlayers + ")\nType -1 for more options");
+            int index = sc.nextInt();
+            if (index == -980) {
+                rate(gameChoice);
+            }
+            if (index > 0 && index <= numOfPlayers) {
+                editPlayers(players, index - 1);
+            } else if(index == -1) {
+                moreOptionsForPlayers();
+            }else{
+                System.out.println("Invalid input");
+            }
+            o.cls();
+        }
+    }
+
+
+    public void moreOptionsForPlayers() {
+        System.out.println("1- Add new player");
+        System.out.println("2- Delete player");
+        System.out.println("3- Edit player");
+        System.out.println("4- In/Out player");
+        System.out.println("5- Back to game");
+        int choice = sc.nextInt();
+        switch (choice) {
+            case 1:
+                addPlayer();
+                break;
+            case 2:
+                deletePlayer();
+                break;
+            case 3:
+                editPlayer();
+                break;
+            case 4:
+                inOutPlayer();
+                break;
+            case 5:
+                start();
+                break;
+            default:
+                System.out.println("Invalid choice");
+                break;
+        }
+    }
+
+    public void inOutPlayer() {
+        o.cls();
+        System.out.println("Enter player name");
+        String name = sc.next();
+        for (int i = 0; i < numOfPlayers; i++) {
+            if (players[i].getName().equals(name)) {
+                if (players[i].getIsIn()) {
+                    players[i].setIsIn(false);
+                    System.out.println("Player " + name + " is out");
+                } else {
+                    players[i].setIsIn(true);
+                    System.out.println("Player " + name + " is in");
+                }
+            }
+        }
+    }
+
+    public void addPlayer() {
+        o.cls();
+        System.out.println("Enter player name");
+        String name = sc.next();
+        System.out.println("Enter player score");
+        int score = sc.nextInt();
+        Player[] temp = new Player[numOfPlayers + 1];
+        for (int i = 0; i < numOfPlayers; i++) {
+            temp[i] = players[i];
+        }
+        temp[numOfPlayers] = new Player(name, score);
+        players = temp;
+        numOfPlayers++;
+        o.cls();
+    }
+
+    public void deletePlayer() {
+        o.cls();
+        System.out.println("Enter player name");
+        String name = sc.next();
+        for (int i = 0; i < numOfPlayers; i++) {
+            if (players[i].getName().equals(name)) {
+                Player[] temp = new Player[numOfPlayers - 1];
+                for (int j = 0; j < i; j++) {
+                    temp[j] = players[j];
+                }
+                for (int j = i; j < numOfPlayers - 1; j++) {
+                    temp[j] = players[j + 1];
+                }
+                players = temp;
+                numOfPlayers--;
+                o.cls();
+                return;
+            }
+        }
+        System.out.println("Player not found");
+    }
+
+
+    public void editPlayer() {
+        o.cls();
+        System.out.println("Enter player name");
+        int index = 0 ;
+        printPlayers(players, numOfPlayers);
+        String name = sc.next();
+        for(int i = 0; players[i].getName().equals(name); i++) {
+            index = i;
+        }
+        System.out.println("\n1- Edit player name");
+        System.out.println("2- Edit player score");
+        System.out.println("3- Back");
+        int choice = sc.nextInt();
+        switch (choice) {
+            case 1:
+                System.out.println("Enter new name");
+                name = sc.next();
+                players[index].setName(name);
+                break;
+            case 2:
+                System.out.println("Enter new score");
+                int score = sc.nextInt();
+                players[index].setScore(score);
+                break;
+            case 3:
+                break;
+            default:
+                System.out.println("Invalid choice");
+                break;
+        }
+        o.cls();
+    }
+
+
+
+    public void mainMenu() {
+        System.out.println("Choose game number :- "); // print menu list
+        for (int i = 1; i <= numOfGames; i++) {
+            System.out.println(i + "-" + fs.indexLine(mainPath, i)[0]);
+            if ((i + 1) > numOfGames) {
+                System.out.println((i + 1) + "-" + "Options ");
+            }
+        }
+
+        gameChoice = sc.nextInt(); // input the user gameChoice of the list of games
+        gameInfo = fs.indexLine(mainPath, gameChoice); // get the game info from the file
+        if (gameChoice == numOfGames + 1) // a condition to let user create a new game
+        {
+            optionsMenu();
+        } else if (gameChoice <= numOfGames && gameChoice > 0) {
+            System.out.println("You have selected " + fs.indexLine(mainPath, gameChoice)[0]); // print the selected game
+
+        } else {
+            System.out.println("Invalid input\n\n");
+        }
+    }
+
+    public void playersNames() {
+
         if (!gameInfo[2].equals("NaN")) {
             System.out.println("Number of players : " + gameInfo[2]);
             numOfPlayers = Integer.valueOf(gameInfo[2]);
@@ -171,58 +349,30 @@ public class Game extends Player {
         }
     }
 
-    public void start() {
-        o.cls();
-        System.out.println("\nSHALL " + fs.indexLine(mainPath, gameChoice)[0] + " START NOW!\n\n");
-        while (true) {
-            // Sorting players by socre which is gameInfo[1]
-            System.out.println("Enter -980 to Exit game");
-
+    public void playersScores() {
+        System.out.println();
+        if (!gameInfo[1].equals("NaN")) {
+            System.out.println("Players starter score : " + gameInfo[1]);
+            scoreOfPlayers = Integer.valueOf(gameInfo[1]);
             for (int i = 0; i < numOfPlayers; i++) {
-                for (int j = i + 1; j < numOfPlayers; j++) {
-                    if (players[i].getScore() < players[j].getScore()) {
-                        Player temp = players[i];
-                        players[i] = players[j];
-                        players[j] = temp;
-                    }
-                }
+                players[i].setScore(scoreOfPlayers);
+
             }
 
-            printPlayers(players, numOfPlayers);
-            System.out.println("Which player do you want to edit?\n type in range (1:" + numOfPlayers + ")");
-            int index = sc.nextInt();
-            if (index == -980) {
-                rate(gameChoice);
+        } else {
+            for (int i = 0; i < numOfPlayers; i++) {
+                System.out.print("Enter the value of player " + (i + 1) + " : ");
+                players[i].setScore(sc.nextInt());
+
             }
-            if (index > 0 && index <= numOfPlayers) {
-                editPlayers(players, index - 1);
-            } else {
-                System.out.println("Invalid input");
-            }
-            o.cls();
+
         }
     }
 
-    public void mainMenu() {
-        System.out.println("Choose game number :- "); // print menu list
-        for (int i = 1; i <= numOfGames; i++) {
-            System.out.println(i + "-" + fs.indexLine(mainPath, i)[0]);
-            if ((i + 1) > numOfGames) {
-                System.out.println((i + 1) + "-" + "Options ");
-            }
-        }
+    public void playersSetup() {
+        playersNames();
+        playersScores();
 
-        gameChoice = sc.nextInt(); // input the user gameChoice of the list of games
-        gameInfo = fs.indexLine(mainPath, gameChoice); // get the game info from the file
-        if (gameChoice == numOfGames + 1) // a condition to let user create a new game
-        {
-            optionsMenu();
-        } else if (gameChoice <= numOfGames && gameChoice > 0) {
-            System.out.println("You have selected " + fs.indexLine(mainPath, gameChoice)[0]); // print the selected game
-
-        } else {
-            System.out.println("Invalid input\n\n");
-        }
     }
 
     public String[] getGameInfo() {
@@ -285,6 +435,10 @@ public class Game extends Player {
                 }
             }
         }
+        for (int i = 0; i < numOfGames; i++) {
+            System.out.println((i + 1) + "-" + games[i]);
+        }
+
     }
 
     public void deleteGame() {
