@@ -8,3 +8,6 @@ Tolba,NaN,NaN,5.0
 ZOZ,NaN,NaN,6.0
 tictok,50,2,2.0
 TestingRate,50,2,4.0
+Testing,NaN,5,0
+hi,500,2,0
+55,600,2,2.5
