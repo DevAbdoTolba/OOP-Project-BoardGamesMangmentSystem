@@ -1,5 +1,6 @@
 package main.Classes;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -10,7 +11,6 @@ import main.Classes.Game;
 import main.util.Output;
 
 public class Game extends Player {
-
 
     // // TODO: fix print all players
 
@@ -90,29 +90,23 @@ public class Game extends Player {
         mainMenu();
         playersSetup();
 
-
     }
 
     // Methods
 
     public void rate(int index) {
-        o.cls();
-        for (int i = 0; i < numOfPlayers; i++) {
-            if (players[i].getIsIn()) {
-                System.out.println("The winner is " + players[i].getName() + " with score " + players[i].getScore());
-                break;
-            }
-        }
+
         while (true) {
             System.out.println("Rate the game (1-5)");
-            String[] gameInfo = fs.indexLine(mainPath, index);
+            String[] gameInfo = fs.indexLine(this.mainPath, index);
             float rating = sc.nextFloat();
             if (rating > 5 || rating < 0) {
                 o.cls();
                 System.out.println("Invalid rating");
                 continue;
             }
-            gameInfo[3] = Float.toString(((Float.parseFloat(gameInfo[3]) + rating) / 2.0f));
+            float mean = ((Float.valueOf(gameInfo[3]) + rating)) / 2;
+            gameInfo[3] = String.valueOf(mean);
             newData = fs.convString(gameInfo);
             fs.deleteRow(mainPath, tempPath, newData, index, gameInfo[0]);
             for (int i = 0; i < gameInfo.length; i++) {
@@ -130,30 +124,26 @@ public class Game extends Player {
         }
     }
 
-    public void start() {
+    public void start(boolean sessionWriteOrNot) {
 
         String toSession = "";
-        
-        for (int i = 0; i < numOfPlayers; i++) {
-            toSession = players[i].getName() + "," + players[i].getScore() + "," + players[i].getIsIn()+"\n";
-            ss.addToFile(toSession , sessionKey );
+
+        for (int i = 0; (i < numOfPlayers) && sessionWriteOrNot; i++) {
+            toSession = players[i].getName() + "," + players[i].getScore() + "," + players[i].getIsIn() + "\n";
+            ss.addToFile(toSession, sessionKey);
         }
 
         o.cls();
-        System.out.println("\nSHALL " + fs.indexLine(mainPath, gameChoice)[0] + " START NOW!\n\n");
-
-        System.out.println(numberOfPlayersGaming);
+        System.out.println("\nSHALL " + fs.indexLine(this.mainPath, gameChoice)[0] + " START NOW!\n");
 
 
-        
-        while (!(numberOfPlayersGaming == 1 )) {
+        while (!(numberOfPlayersGaming == 1)) {
             // numberOfPlayersGaming = 0;
             // for(int i = 0; i < numOfPlayers; i++){
-            //     if(players[i].getIsIn()){
-            //         numberOfPlayersGaming++;
-            //     }
+            // if(players[i].getIsIn()){
+            // numberOfPlayersGaming++;
             // }
-            
+            // }
 
             System.out.println(numberOfPlayersGaming);
             // Sorting players by socre which is gameInfo[1]
@@ -180,11 +170,14 @@ public class Game extends Player {
                     + ")\nType -1 for more options");
             int index = sc.nextInt();
             if (index == -980) {
+                o.cls();
+                System.out.println("Session secret key:  ==> " + sessionKey
+                        + " <==\nYou won't be able to countinue the game without it!!");
                 rate(gameChoice);
             }
             if (index > 0 && index <= numOfPlayers) {
                 editPlayers(players, index - 1);
-                ss.editPlayerScore(players[index-1].getName(), players[index-1].getScore(), IsIn, sessionKey);
+                ss.editPlayerScore(players[index - 1].getName(), players[index - 1].getScore(), IsIn, sessionKey);
             } else if (index == -1) {
                 moreOptionsForPlayers();
             } else {
@@ -192,8 +185,8 @@ public class Game extends Player {
             }
             o.cls();
             numberOfPlayersGaming = 0;
-            for(int i = 0; i < numOfPlayers; i++){
-                if(players[i].getIsIn()){
+            for (int i = 0; i < numOfPlayers; i++) {
+                if (players[i].getIsIn()) {
                     numberOfPlayersGaming++;
                 }
             }
@@ -201,6 +194,12 @@ public class Game extends Player {
         o.cls();
         System.out.println("Game finished");
         // Print the winner name with score
+        for (int i = 0; i < numOfPlayers; i++) {
+            if (players[i].getIsIn()) {
+                System.out.println("The winner is " + players[i].getName() + " with score " + players[i].getScore());
+                break;
+            }
+        }
 
         rate(gameChoice);
     }
@@ -236,7 +235,9 @@ public class Game extends Player {
                 mainMenu();
                 break;
             case 5:
+                o.cls();
                 continueSession();
+                start(false);
                 break;
             case 6:
                 System.exit(0);
@@ -251,18 +252,52 @@ public class Game extends Player {
 
     public void newSession() {
         String toBeWritten = "";
-        for(int i = 0; i < numOfPlayers; i++){
-            toBeWritten = ( players[i].getName() + "," + players[i].getScore()+ "," + players[i].getIsIn() + "\n" ) ;
+        for (int i = 0; i < numOfPlayers; i++) {
+            toBeWritten = (players[i].getName() + "," + players[i].getScore() + "," + players[i].getIsIn() + "\n");
             ss.addToFile(toBeWritten, sessionKey);
         }
-
 
     }
 
     public void continueSession() {
-        
-    }
+        gameChoice = 0;
+        System.out.print("Insert secret session key : ");
+        sessionKey = sc.nextInt();
+        String mainPath = "Sessions\\" + String.valueOf(sessionKey) + ".txt";
+        File file = new File(mainPath);
+        if (!file.exists()) {
+            o.cls();
+            System.out.println("invalid key no open session with this key");
+            continueSession();
+        }
+        numOfPlayers = fs.numberOfRows(mainPath) - 1;
+        players = new Player[numOfPlayers];
+        // System.out.println(fs.indexLine(this.mainPath, 12));
+        for(int i = 0; i < numOfGames+1; i++){
 
+            if(fs.indexLine(mainPath, 0)[0].equals(fs.indexLine(this.mainPath, i)[0])){
+                gameChoice = i;
+                break;
+            }
+        }
+        gameInfo = getGameInfo();
+        gameInfo = fs.indexLine(mainPath, gameChoice); // get the game info from the file
+
+        for (int i = 0; i < numOfPlayers; i++) {
+            players[i] = new Player();
+
+            String[] line = fs.indexLine(mainPath, i + 2);
+
+            players[i].setName(line[0]);
+            players[i].setScore(Integer.valueOf(line[1]));
+            players[i].setIsIn(Boolean.valueOf(line[2]));
+        }
+        for (int i = 0; i < numOfPlayers; i++) {
+            if (players[i].getIsIn()) {
+                numberOfPlayersGaming++;
+            }
+        }
+    }
 
     public void moreOptionsForPlayers() {
         System.out.println("1- Add new player");
@@ -317,12 +352,14 @@ public class Game extends Player {
                     if (players[i].getName().equals(name)) {
                         if (players[i].getIsIn()) {
                             players[i].setIsIn(false);
-                            ss.editPlayerScore(name, players[i].getScore(),false, sessionKey); // ! SESSION ISIN UPDATEING
+                            ss.editPlayerScore(name, players[i].getScore(), false, sessionKey); // ! SESSION ISIN
+                                                                                                // UPDATEING
                             System.out.println("Player " + name + " is out");
 
                         } else {
                             players[i].setIsIn(true);
-                            ss.editPlayerScore(name, players[i].getScore(),true, sessionKey); // ! SESSION ISIN UPDATEING
+                            ss.editPlayerScore(name, players[i].getScore(), true, sessionKey); // ! SESSION ISIN
+                                                                                               // UPDATEING
 
                             System.out.println("Player " + name + " is in");
                         }
@@ -419,7 +456,7 @@ public class Game extends Player {
                     System.out.println("Enter new name");
                     String newName = sc.next();
                     players[index].setName(newName);
-                    ss.editPlayerName(name,players[index].getName(), players[index].getScore(), IsIn, sessionKey);
+                    ss.editPlayerName(name, players[index].getName(), players[index].getScore(), IsIn, sessionKey);
                     break;
                 case 2:
                     System.out.println("Enter new score");
@@ -439,6 +476,7 @@ public class Game extends Player {
     }
 
     public void mainMenu() {
+
         gameInfo = getGameInfo();
         System.out.println("Choose game number :- \n"); // print menu list
         for (int i = 1; i <= numOfGames; i++) {

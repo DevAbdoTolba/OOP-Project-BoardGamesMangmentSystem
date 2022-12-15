@@ -1,4 +1,0 @@
-55
-playerName,score,state
-a,1200,true
-b,650,false
