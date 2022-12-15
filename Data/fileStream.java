@@ -92,11 +92,7 @@ public class fileStream {
             String currentFileData = readFromFile(tempPath, 0);
 
             String toBeWritten;
-            if (newData == "") {
-                toBeWritten = currentFileData;
-            } else {
-                toBeWritten = currentFileData + newData;
-            }
+            toBeWritten = currentFileData;
             writer.write(toBeWritten);
 
             writer.close();
@@ -228,7 +224,6 @@ public class fileStream {
                                                          // null to read all file
 
                 String[] row = line.split(","); // * split the line scanned at every "," and assign to row to be
-                System.out.println(row[0].equals(delete) && delete != "GameName");
                 if (row[0].equals(delete) && delete != "GameName") { // * skip adding this line to the new file being
                                                                      // created
                     continue;
@@ -246,7 +241,9 @@ public class fileStream {
                     }
                 }
                 currentFileData += convString(row) + "\n"; // * convert the row to string and add to currentFileData
-                System.out.println(); // * print new line
+                if (printOrNot == 1) {
+                    System.out.println(); // * print new line
+                }
             }
 
         } catch (Exception e) {
@@ -269,7 +266,7 @@ public class fileStream {
             if (newData == "") {
                 toBeWritten = currentFileData;
             } else {
-                toBeWritten = currentFileData + ((newData == "") ? "\n" : newData);
+                toBeWritten = currentFileData + newData;
             }
             writer.write(toBeWritten);
 
@@ -287,7 +284,7 @@ public class fileStream {
             if (newData == "") {
                 toBeWritten = currentFileData;
             } else {
-                toBeWritten = currentFileData + ((newData == "") ? "\n" : newData);
+                toBeWritten = currentFileData + newData;
             }
             writer.write(toBeWritten);
 

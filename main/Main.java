@@ -29,12 +29,14 @@ public class Main {
 
         // TODO: adding sessions, every session has a folder with seesion key which is int, starts with 1, then goes up depending on number of sessions consumed
         // TODO: sessions are gameName at the very first row, playerName, playerScore,playerStates (in or out)
+
+        // TODO: add extra option after custom game for other methods like delete and print all games sorted depnding on rate
         int score = 0;
         cls();
 
         pl1.mainMenu(); // main menu to chose the game
         String[] currentLine = fs.indexLine(mainPath, choice); // get the current line of the game
-        if(Integer.valueOf(currentLine[2]) > 0){
+        if(isNumeric(currentLine[2])){
             System.out.println("Number of players : " + currentLine[2]);
             number_of_players = Integer.valueOf(currentLine[2]);
             players = new Player[number_of_players];
@@ -44,11 +46,12 @@ public class Main {
                 players[i].setName(sc.next());
             }
         } else {
-            System.out.println("Enter the number of players");
+            System.out.print("Enter the number of players : ");
             number_of_players = sc.nextInt();
             players = new Player[number_of_players];
             for (int i = 0; i < number_of_players; i++) {
                 System.out.print("Enter the name of player " + (i + 1) + " : ");
+                players[i] = new Player();
                 players[i].setName(sc.next());
                 
             }
@@ -56,8 +59,8 @@ public class Main {
 
 
         
-
-        if(Integer.valueOf(currentLine[1]) >= 0 || Integer.valueOf(currentLine[1]) < 0){
+        System.out.println();
+        if(isNumeric(currentLine[1])){
             System.out.println("Players starter score : " + currentLine[1]);
             score = Integer.valueOf(currentLine[1]);
             for (int i = 0; i < number_of_players; i++) {
@@ -66,8 +69,6 @@ public class Main {
             }    
             
         } else {
-            System.out.println("Enter the number of players");
-            number_of_players = sc.nextInt();
             for (int i = 0; i < number_of_players; i++) {
                 System.out.print("Enter the value of player " + (i + 1) + " : ");
                 players[i].setScore(sc.nextInt());
@@ -80,11 +81,25 @@ public class Main {
         // ! STARTING THE GAME
         System.out.println("\nSHALL THE GAME START NOW!\n\n");
         while (true) {
+            // Sorting players by socre which is currentLine[1]
+            for (int i = 0; i < number_of_players; i++) {
+                for (int j = i + 1; j < number_of_players; j++) {
+                    if (players[i].getScore() < players[j].getScore()) {
+                        Player temp = players[i];
+                        players[i] = players[j];
+                        players[j] = temp;
+                    }
+                }
+            }
+
             cls();
+            System.out.println("Enter -980 to Exit game");
             printPlayers(players, number_of_players);
             System.out.println("Which player do you want to edit?\n type in range (1:" + number_of_players + ")");
             int index = sc.nextInt();
-            sc.nextLine();
+            if(index == -980){
+                pl1.rate(choice);
+            }
             editPlayers(players, index - 1);
         }
 
@@ -116,7 +131,7 @@ public class Main {
                 String GameName;
                 int scoreOfPlayers = 0;
                 int num_of_players = 0;
-                System.out.println("Enter New Game Name: ");
+                System.out.println("Enter New Game Name (only English liters, no spacing or symbols of any type): ");
                 GameName = sc.next(); // Input The Name of The New Game
                 
                 
@@ -249,4 +264,47 @@ public class Main {
         }
     }
 
+    void rate(int index){
+        cls();
+        System.out.println("Rate the game (1-5)");
+        String[] currentLine = fs.indexLine(mainPath, index);
+        currentLine[3] = Float.toString((Float.parseFloat(currentLine[3]) + sc.nextFloat()/2.0f));
+
+        fs.deleteRow(mainPath, tempPath, newData, index, currentLine[0]);
+        for(int i = 0; i < currentLine.length; i++){
+            if(i == 0)
+                newData += currentLine[i];
+            else
+                newData += "," + currentLine[i];
+        }
+        fs.writeToFile(mainPath, tempPath, newData, index);
+
+        System.out.println("Game rated successfully");
+        // print game rate
+        System.out.println("Game rate: " + currentLine[3] + "\n\n");
+    }
+
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            try {
+                int i = Integer.parseInt(strNum);
+            } catch (Exception e) {
+                try {
+                    long l = Long.parseLong(strNum);
+                } catch (Exception e1) {
+                    try {
+                        float f = Float.parseFloat(strNum);
+                    } catch (Exception e2) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 }
