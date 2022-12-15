@@ -108,18 +108,17 @@ public class Game extends Player {
             float mean = ((Float.valueOf(gameInfo[3]) + rating)) / 2;
             gameInfo[3] = String.valueOf(mean);
             newData = fs.convString(gameInfo);
-            fs.deleteRow(mainPath, tempPath, newData, index, gameInfo[0]);
+            fs.deleteRow(mainPath, tempPath, newData, 0, gameInfo[0]);
             for (int i = 0; i < gameInfo.length; i++) {
                 if (i == 0)
-                    newData += gameInfo[i];
+                newData += gameInfo[i];
                 else
-                    newData += "," + gameInfo[i];
+                newData += "," + gameInfo[i];
             }
 
             System.out.println("Game rated successfully");
             // print game rate
             System.out.println(gameInfo[0] + " rate: " + gameInfo[3] + "\n\n");
-            ss.deleteFiles(sessionKey);
             System.exit(0);
         }
     }
@@ -200,7 +199,7 @@ public class Game extends Player {
                 break;
             }
         }
-
+        ss.deleteFiles(sessionKey);
         rate(gameChoice);
     }
 
@@ -238,8 +237,10 @@ public class Game extends Player {
                 int numberOfSessions ;
                 numberOfSessions = ss.numberOfSessions();
                 if(numberOfSessions == 0){
+                    o.cls();
                     System.out.println("No sessions to continue");
                     mainMenu();
+                    break;
                 }
                 o.cls();
                 continueSession();
