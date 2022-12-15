@@ -1,84 +1,74 @@
 package main;
-import java.util.ArrayList;
-import java.util.Vector;
-public class Main {
-    int value;
-    int  number_of_players;
-    String name_of_players;
-    int score = 0;
-    String in;
-    static Scanner pl = new Scanner(System.in);
-    static Main pl1=new Main();
 
+import java.io.IOException;
+import java.util.Scanner;
+import Data.fileStream;
+import main.Classes.Game;
+import main.Classes.Player;
+
+public class Main {
+    /*
+     * Global Variables
+     */
+
+    // static int number_of_players; 
+    // static int value;
+    // static Scanner sc = new Scanner(System.in);
+    // static fileStream fs = new fileStream();
+    // static Main pl1 = new Main();
+    
+    static int choice;
+    
+    static String mainPath = "Data\\games.txt";
+    static String tempPath = "Data\\gamesTemp.txt";
+    static String newData = "";
+
+    /*
+     * Main Method
+     * 
+     ! MAIN METHOD
+     */
     public static void main(String args[]) {
 
-        ArrayList<String> player = new ArrayList<String>();
-        ArrayList<String> games = new ArrayList<String>();
-        ArrayList<String> Items = new ArrayList<String>();
-        pl1.addPlayers();
-          pl1.score();
-          pl1.fixedValue();
-    }`
+        // TODO: adding sessions, every session has a file with seesion key which is int, starts with 1, then goes up depending on number of sessions consumed
+        // TODO: sessions are gameName at the very first row, playerName, playerScore,playerStates (in or out)
 
-    public void choosingGameMenu() {
+        // TODO: add extra option after custom game for other methods like delete and print all games sorted depnding on rate
+        // TODO: is numaric in testingForZiad score checks if the score is numaric or not IS NOT WORKING
+        cls();
 
-        int NumGame; // instance NumGame Variable
-        Vector<String> Games = new Vector<>(); // instance vector for storing Game Names
-        Games.add("BankElhaz"); // add vector element
-        Games.add("Monopoly"); // add vector element
-        System.out.println("Chose game number"); // print menu list
+        Game game = new Game(mainPath,tempPath,choice); // constructor of Game class which also starts the manMenu method
+        // game.mainMenu(); is already called in the constructor
+        // game.playerSetting(); is already called in the constructor
 
-        for (int i = 0; i < Games.size(); i++) // loop to print game choices
-        {
-            System.out.println(i + 1 + "-" + Games.get(i)); // print the game number and game name
-            if (i == Games.size() - 1) // condition to select last Choice
-            {
-                System.out.println(i + 2 + "-" + "Add New Game ");
-            }
-        }
+        String[] gameInfo = game.getGameInfo();
+//      GameName    score   players rate
+//        0           1       2       3
 
-        NumGame = input.nextInt(); // input the user choice to play
-        // if(NumGame > Games.size()) // a condition to let user create a new game
-        // {
-        // AddNewGame(); // Add New Game Method //todo: this function must have a Games.add to add the new game which created by the user stored in the vector
-        // }
-        // else
-        // setGame(Games.get(NumGame-1)); // to enter the game ;
+      
 
-    }
-  
-    public void addPlayers() {
-        System.out.println("Enter the number of players");
-        number_of_players = pl.nextInt();
-        for (int i = 0; i < number_of_players; i++) {
-            System.out.println("Enter the name of player " + (i + 1));
-            name_of_players  = pl.next();
-        }
+        
+        // ! STARTING THE GAME
+        game.start();
 
     }
 
-     public void score() {
-        int score = 0;
-        for (int i = 0; i < number_of_players; i++) {
-            System.out.println("Enter the score of player " + (i + 1));
-                      score = pl.nextInt();
+    /*
+     * Mathods
+     * 
+     */
+
+    
+    static void cls(){
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (InterruptedException | IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-            
-        }
+    }
 
     
 
-     public void fixedValue() {
-      
-        System.out.println("are the values fixed? (1 for yes, 0 for no)");
-        if(pl.nextInt() == 1){
-        System.out.println("Enter the value");    
-        in = pl.nextLine();}
-        else{   
-        for(int i = 0; i < number_of_players; i++){
-            System.out.println("Enter the value of player " + (i+1));
-            in = pl.nextLine();
-        }
-    }
-     }
+
 }
