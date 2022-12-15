@@ -129,6 +129,10 @@ public class Player {
                 System.out.println(i + 1 + "-" + players[i].getName() + ": " + players[i].getScore());
             }
         }
+        /* The code above does the following:
+1. Declares an array of Player objects with the name players.
+2. Declares an int variable with the name numOfPlayers.
+3. Creates a for loop that iterates from 0 to numOfPlayers and prints the player number, name, and score for each player. */
 
 
         
@@ -212,6 +216,11 @@ public class Player {
                 }
             }
         }
+        /* The code above does the following:
+1. It lets the user enter the operation they want to do
+2. It lets the user enter the value they want to do the operation on 
+3. It checks if the user wants to confirm the operation and the value
+4. It prints out the new score of the player */
     
         
 

@@ -8,9 +8,13 @@ import main.util.Output;
 
 public class Game extends Player {
 
-    // method to sort all games depnding on rate and print all of them after clearing the screen
+    public static void main(String[] args) {
+        Game game = new Game();
+        game.start();
+    }
 
-    
+    // method to sort all games depnding on rate and print all of them after
+    // clearing the screen
 
     public void optionsMenu() {
         Output o = new Output();
@@ -117,26 +121,34 @@ public class Game extends Player {
 
     public void rate(int index) {
         o.cls();
-        System.out.println("Rate the game (1-5)");
-        String[] gameInfo = fs.indexLine(mainPath, index);
-        gameInfo[3] = Float.toString((Float.parseFloat(gameInfo[3]) + sc.nextFloat() / 2.0f));
-        newData = fs.convString(gameInfo);
-        fs.deleteRow(mainPath, tempPath, newData, index, gameInfo[0]);
-        for (int i = 0; i < gameInfo.length; i++) {
-            if (i == 0)
-                newData += gameInfo[i];
-            else
-                newData += "," + gameInfo[i];
-        }
-        fs.writeToFile(mainPath, tempPath, newData, index);
+        while (true) {
+            System.out.println("Rate the game (1-5)");
+            String[] gameInfo = fs.indexLine(mainPath, index);
+            float rating = sc.nextFloat();
+            if (rating > 5 || rating < 0) {
+                System.out.println("Invalid rating");
+                continue;
+            }
+            gameInfo[3] = Float.toString((Float.parseFloat(gameInfo[3]) + rating / 2.0f));
+            newData = fs.convString(gameInfo);
+            fs.deleteRow(mainPath, tempPath, newData, index, gameInfo[0]);
+            for (int i = 0; i < gameInfo.length; i++) {
+                if (i == 0)
+                    newData += gameInfo[i];
+                else
+                    newData += "," + gameInfo[i];
+            }
+            fs.writeToFile(mainPath, tempPath, newData, index);
 
-        System.out.println("Game rated successfully");
-        // print game rate
-        System.out.println("Game rate: " + gameInfo[3] + "\n\n");
-        System.exit(0);
+            System.out.println("Game rated successfully");
+            // print game rate
+            System.out.println("Game rate: " + gameInfo[3] + "\n\n");
+            System.exit(0);
+        }
     }
 
     public void playerSetting() {
+        
         if (!gameInfo[2].equals("NaN")) {
             System.out.println("Number of players : " + gameInfo[2]);
             numOfPlayers = Integer.valueOf(gameInfo[2]);
@@ -161,7 +173,7 @@ public class Game extends Player {
 
     public void start() {
         o.cls();
-        System.out.println("\nSHALL "+ fs.indexLine(mainPath, gameChoice)[0] +" START NOW!\n\n");
+        System.out.println("\nSHALL " + fs.indexLine(mainPath, gameChoice)[0] + " START NOW!\n\n");
         while (true) {
             // Sorting players by socre which is gameInfo[1]
             System.out.println("Enter -980 to Exit game");
@@ -175,7 +187,7 @@ public class Game extends Player {
                     }
                 }
             }
-            
+
             printPlayers(players, numOfPlayers);
             System.out.println("Which player do you want to edit?\n type in range (1:" + numOfPlayers + ")");
             int index = sc.nextInt();
@@ -204,53 +216,12 @@ public class Game extends Player {
         gameInfo = fs.indexLine(mainPath, gameChoice); // get the game info from the file
         if (gameChoice == numOfGames + 1) // a condition to let user create a new game
         {
-            optionsMenu();   
+            optionsMenu();
         } else if (gameChoice <= numOfGames && gameChoice > 0) {
             System.out.println("You have selected " + fs.indexLine(mainPath, gameChoice)[0]); // print the selected game
 
         } else {
             System.out.println("Invalid input\n\n");
-        }
-    }
-
-    public void playersSetup() {
-        if (!gameInfo[2].equals("NaN")) {
-            System.out.println("Number of players : " + gameInfo[2]);
-            numOfPlayers = Integer.valueOf(gameInfo[2]);
-            players = new Player[numOfPlayers];
-            for (int i = 0; i < numOfPlayers; i++) {
-                System.out.print("Enter the name of player " + (i + 1) + " : ");
-                players[i] = new Player();
-                players[i].setName(sc.next());
-            }
-        } else {
-            System.out.print("Enter the number of players : ");
-            numOfPlayers = sc.nextInt();
-            players = new Player[numOfPlayers];
-            for (int i = 0; i < numOfPlayers; i++) {
-                System.out.print("Enter the name of player " + (i + 1) + " : ");
-                players[i] = new Player();
-                players[i].setName(sc.next());
-
-            }
-        }
-
-        System.out.println();
-        if (!gameInfo[1].equals("NaN")) {
-            System.out.println("Players starter score : " + gameInfo[1]);
-            scoreOfPlayers = Integer.valueOf(gameInfo[1]);
-            for (int i = 0; i < numOfPlayers; i++) {
-                players[i].setScore(scoreOfPlayers);
-
-            }
-
-        } else {
-            for (int i = 0; i < numOfPlayers; i++) {
-                System.out.print("Enter the value of player " + (i + 1) + " : ");
-                players[i].setScore(sc.nextInt());
-
-            }
-
         }
     }
 
@@ -262,42 +233,42 @@ public class Game extends Player {
         this.gameInfo = gameInfo;
     }
 
-    public void addGame(){
+    public void addGame() {
         scoreOfPlayers = 0;
-            numOfPlayers = 0;
-            System.out.println("Enter New Game Name (only English liters, no spacing or symbols of any type): ");
-            gameName = sc.next(); // Input The Name of The New Game
+        numOfPlayers = 0;
+        System.out.println("Enter New Game Name (only English liters, no spacing or symbols of any type): ");
+        gameName = sc.next(); // Input The Name of The New Game
 
-            System.out.println("Is the number of players fixed always? (1 for yes, 0 for no)");
-            fixed = sc.nextInt();
-            if (fixed == 1) {
-                System.out.print("Number of players : ");
-                numOfPlayers = sc.nextInt();
+        System.out.println("Is the number of players fixed always? (1 for yes, 0 for no)");
+        fixed = sc.nextInt();
+        if (fixed == 1) {
+            System.out.print("Number of players : ");
+            numOfPlayers = sc.nextInt();
 
-            } else if (fixed == 0) {
-            } else {
-                System.out.println("Invalid input\n\n");
-            }
+        } else if (fixed == 0) {
+        } else {
+            System.out.println("Invalid input\n\n");
+        }
 
-            System.out.println("Are all players also start with the same score? (1 for yes, 0 for no)");
-            fixedScore = sc.nextInt();
-            if (fixedScore == 1) {
-                System.out.print("Score : ");
-                scoreOfPlayers = sc.nextInt();
-            } else if (fixedScore == 0) {
-            } else {
-                System.out.println("Invalid input\n\n");
-            }
+        System.out.println("Are all players also start with the same score? (1 for yes, 0 for no)");
+        fixedScore = sc.nextInt();
+        if (fixedScore == 1) {
+            System.out.print("Score : ");
+            scoreOfPlayers = sc.nextInt();
+        } else if (fixedScore == 0) {
+        } else {
+            System.out.println("Invalid input\n\n");
+        }
 
-            newData = gameName + "," + ((scoreOfPlayers != 0) ? scoreOfPlayers : "NaN") + ","
-                    + ((numOfPlayers != 0) ? numOfPlayers : "NaN") + "," + "0"; // create a new line of data
-            fs.writeToFile(mainPath, tempPath, newData, 0); // write the new data to the file
-            o.cls();
-            mainMenu(); // call the main menu again to show the new list of games
+        newData = gameName + "," + ((scoreOfPlayers != 0) ? scoreOfPlayers : "NaN") + ","
+                + ((numOfPlayers != 0) ? numOfPlayers : "NaN") + "," + "0"; // create a new line of data
+        fs.writeToFile(mainPath, tempPath, newData, 0); // write the new data to the file
+        o.cls();
+        mainMenu(); // call the main menu again to show the new list of games
 
     }
 
-    public void printAllGames(){
+    public void printAllGames() {
         // array of string which has the name of the games
         String[] games = new String[numOfGames];
         for (int i = 0; i < numOfGames; i++) {
@@ -306,7 +277,8 @@ public class Game extends Player {
         // print all games sorted by rating
         for (int i = 0; i < numOfGames; i++) {
             for (int j = i + 1; j < numOfGames; j++) {
-                if (Integer.valueOf(fs.indexLine(mainPath, i + 1)[3]) < Integer.valueOf(fs.indexLine(mainPath, j + 1)[3])) {
+                if (Integer.valueOf(fs.indexLine(mainPath, i + 1)[3]) < Integer
+                        .valueOf(fs.indexLine(mainPath, j + 1)[3])) {
                     String temp = games[i];
                     games[i] = games[j];
                     games[j] = temp;
@@ -315,14 +287,14 @@ public class Game extends Player {
         }
     }
 
-    public void deleteGame(){
+    public void deleteGame() {
         newData = "";
         System.out.println("Enter the name of the game you want to delete");
         printAllGames();
-        fs.deleteRow(mainPath, tempPath, newData ,0,sc.next());
+        fs.deleteRow(mainPath, tempPath, newData, 0, sc.next());
         o.cls();
         System.out.println("Game Deleted Successfully\n\n");
         mainMenu();
     }
-    
+
 }
