@@ -49,7 +49,7 @@ public class Main {
 
         
         // ! STARTING THE GAME
-        game.start();
+        game.start(true);
 
     }
 
