@@ -15,14 +15,10 @@ public class Player {
     ArrayList<String> History = new ArrayList<String>(); // Create an ArrayList object
 
 
-
     // Constructors 
     
     // Default Constructor
     public Player() {
-        this.name = "Player";
-        this.score = 0;
-        this.IsIn = true;
     }
     // parametrized Constructor 
     public Player(String name, int score, boolean IsIn) {
@@ -46,7 +42,7 @@ public class Player {
     }
     
     
-    public boolean getisIsIn() {
+    public boolean getIsIn() {
         return IsIn;
     }
     

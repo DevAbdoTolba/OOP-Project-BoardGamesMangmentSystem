@@ -30,6 +30,7 @@ public class Main {
         // TODO: adding sessions, every session has a folder with seesion key which is int, starts with 1, then goes up depending on number of sessions consumed
         // TODO: sessions are gameName at the very first row, playerName, playerScore,playerStates (in or out)
         int score = 0;
+        cls();
 
         pl1.mainMenu(); // main menu to chose the game
         String[] currentLine = fs.indexLine(mainPath, choice); // get the current line of the game
@@ -79,12 +80,7 @@ public class Main {
         // ! STARTING THE GAME
         System.out.println("\nSHALL THE GAME START NOW!\n\n");
         while (true) {
-            try {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } catch (InterruptedException | IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            cls();
             printPlayers(players, number_of_players);
             System.out.println("Which player do you want to edit?\n type in range (1:" + number_of_players + ")");
             int index = sc.nextInt();
@@ -244,6 +240,13 @@ public class Main {
             }
         }
     
-    
+    static void cls(){
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (InterruptedException | IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
 }
