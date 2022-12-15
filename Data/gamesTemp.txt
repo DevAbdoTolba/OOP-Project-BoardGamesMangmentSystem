@@ -6,3 +6,4 @@ Amr,500,8,2.5
 Test,40,2,5.0
 Tolba,NaN,NaN,2.5
 Testing,90,8,0
+testingForZiad,NaN,2,2.5

@@ -31,12 +31,13 @@ public class Main {
         // TODO: sessions are gameName at the very first row, playerName, playerScore,playerStates (in or out)
 
         // TODO: add extra option after custom game for other methods like delete and print all games sorted depnding on rate
+        // TODO: is numaric in testingForZiad score checks if the score is numaric or not IS NOT WORKING
         int score = 0;
         cls();
 
         pl1.mainMenu(); // main menu to chose the game
         String[] currentLine = fs.indexLine(mainPath, choice); // get the current line of the game
-        if(isNumeric(currentLine[2])){
+        if(!currentLine[2].equals("NaN")){
             System.out.println("Number of players : " + currentLine[2]);
             number_of_players = Integer.valueOf(currentLine[2]);
             players = new Player[number_of_players];
@@ -60,7 +61,7 @@ public class Main {
 
         
         System.out.println();
-        if(isNumeric(currentLine[1])){
+        if(!currentLine[1].equals("NaN")){
             System.out.println("Players starter score : " + currentLine[1]);
             score = Integer.valueOf(currentLine[1]);
             for (int i = 0; i < number_of_players; i++) {
