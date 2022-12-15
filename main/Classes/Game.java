@@ -196,7 +196,7 @@ public class Game extends Player {
         // Print the winner name with score
         for (int i = 0; i < numOfPlayers; i++) {
             if (players[i].getIsIn()) {
-                System.out.println("The winner is " + players[i].getName() + " with score " + players[i].getScore());
+                System.out.println("The winner is ==> " + players[i].getName() + " <== with score " + players[i].getScore());
                 break;
             }
         }
@@ -212,7 +212,7 @@ public class Game extends Player {
         System.out.println("3- Delete a game");
         System.out.println("4- Back to main menu");
         System.out.println("5- Continue a session ");
-        System.out.println("6- Exit");
+        System.out.println("6- Exit program");
         choice = sc.nextInt();
         switch (choice) {
             case 1:
@@ -235,6 +235,12 @@ public class Game extends Player {
                 mainMenu();
                 break;
             case 5:
+                int numberOfSessions ;
+                numberOfSessions = ss.numberOfSessions();
+                if(numberOfSessions == 0){
+                    System.out.println("No sessions to continue");
+                    mainMenu();
+                }
                 o.cls();
                 continueSession();
                 start(false);
@@ -261,8 +267,11 @@ public class Game extends Player {
 
     public void continueSession() {
         gameChoice = 0;
-        System.out.print("Insert secret session key : ");
+        System.out.print("Type -2 to go Back\nInsert secret session key : ");
         sessionKey = sc.nextInt();
+        if (sessionKey == -2) {
+            mainMenu();
+        }
         String mainPath = "Sessions\\" + String.valueOf(sessionKey) + ".txt";
         File file = new File(mainPath);
         if (!file.exists()) {
@@ -297,6 +306,8 @@ public class Game extends Player {
                 numberOfPlayersGaming++;
             }
         }
+
+        
     }
 
     public void moreOptionsForPlayers() {
@@ -488,6 +499,11 @@ public class Game extends Player {
         }
 
         gameChoice = sc.nextInt(); // input the user gameChoice of the list of games
+        // check if gameChoice out or range
+        if (gameChoice > numOfGames + 1 || gameChoice < 0) {
+            System.out.println("Invalid input\n");
+            mainMenu();
+        }
         gameInfo = fs.indexLine(mainPath, gameChoice); // get the game info from the file
         if (gameChoice == numOfGames + 1) // a condition to let user create a new game
         {
@@ -496,7 +512,7 @@ public class Game extends Player {
             System.out.println("You have selected " + fs.indexLine(mainPath, gameChoice)[0]); // print the selected game
             sessionKey = ss.CreateFile(fs.indexLine(mainPath, gameChoice)[0]); // ! CREATING NEW SESSION
         } else {
-            System.out.println("Invalid input\n\n");
+            System.out.println("Invalid input\n");
         }
     }
 
@@ -585,7 +601,7 @@ public class Game extends Player {
 
         } else if (fixed == 0) {
         } else {
-            System.out.println("Invalid input\n\n");
+            System.out.println("Invalid input\n");
         }
 
         System.out.println("Are all players also start with the same score? (1 for yes, 0 for no)");
@@ -595,7 +611,7 @@ public class Game extends Player {
             scoreOfPlayers = sc.nextInt();
         } else if (fixedScore == 0) {
         } else {
-            System.out.println("Invalid input\n\n");
+            System.out.println("Invalid input\n");
         }
 
         newData = gameName + "," + ((scoreOfPlayers != 0) ? scoreOfPlayers : "NaN") + ","

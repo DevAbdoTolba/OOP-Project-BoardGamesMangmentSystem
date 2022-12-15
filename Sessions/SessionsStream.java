@@ -115,4 +115,11 @@ public class SessionsStream {
 
     }
 
+    public int numberOfSessions() {
+        int i = 0;
+        for (i = 0; (new File("Sessions\\" + String.valueOf(i) + ".txt")).exists(); i++)
+            ;
+        return i;
+    }
+
 }
