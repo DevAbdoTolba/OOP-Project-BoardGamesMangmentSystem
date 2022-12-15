@@ -23,12 +23,15 @@ public class Player {
     
         // Default Constructor
         public Player() {
+            this.name = "Player";
+            this.score = 0;
+            this.IsIn = true;
         }
         // parametrized Constructor 
-        public Player(String name, int score, boolean IsIn) {
+        public Player(String name, int score) {
             this.name = name;
             this.score = score;
-            this.IsIn = IsIn;
+            this.IsIn = true;
         }
 
 
@@ -126,6 +129,7 @@ public class Player {
 
         static void printPlayers(Player[] players,int numOfPlayers) {
             for (int i = 0; i < numOfPlayers; ++i) {
+                if(players[i].getIsIn())
                 System.out.println(i + 1 + "-" + players[i].getName() + ": " + players[i].getScore());
             }
         }
@@ -229,10 +233,10 @@ public class Player {
 
         // // ToString Method To print the information about the player 
         
-        // @Override
-        // public String toString() {
-        //     return "Player{" + "name=" + name + ", score=" + score + ", IsIn=" + IsIn + ", Items=" + Items + ", History=" + History + '}';
-        // }
+        @Override
+        public String toString() {
+            return  name + ", score=" + score +  ", IsIn=" + IsIn ; // TODO: Still missing history of every player and items ;-;
+        }
     
 
 }

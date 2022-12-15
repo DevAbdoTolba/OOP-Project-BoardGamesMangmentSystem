@@ -8,6 +8,7 @@ import java.io.IOException;
 
 public class fileStream {
 
+
     // public static void main(String[] args) {
     String mainPath; // storing the main path to the file
     String tempPath; // storing the temp path to the output file
@@ -162,7 +163,7 @@ public class fileStream {
 
     }
 
-    private String[] returnLastRow() {
+    public String[] returnLastRow() {
         /*
          * Return last row
          * a method to return the last row of a file
@@ -213,6 +214,7 @@ public class fileStream {
     }
 
     public void deleteRow(String mainPath, String tempPath, String newData, int printOrNot, String delete) {
+        printOrNot = 0;
         BufferedReader reader = null; // Reader Object
         String line = ""; // String where will store every line from file
         String currentFileData = "";
