@@ -67,11 +67,51 @@ public class SessionsStream {
         }
     }
 
-    public void addFile(String newData, int key) {
+    public void addToFile(String newData, int key) {
         String mainPath = "Sessions\\" + String.valueOf(key) + ".txt";
         String tempPath = "Sessions\\" + String.valueOf(key) + "Temp.txt";
 
         fs.writeToFile(mainPath, tempPath, newData, 0);
+
+    }
+
+    public void deleteFromFile(String name, int key){
+        String mainPath = "Sessions\\" + String.valueOf(key) + ".txt";
+        String tempPath = "Sessions\\" + String.valueOf(key) + "Temp.txt";
+
+        fs.deleteRow(mainPath, tempPath, "", 0 , name);
+    }
+
+    public void editPlayerName(String oldName,String newName ,int score, boolean isin, int key){
+        String mainPath = "Sessions\\" + String.valueOf(key) + ".txt";
+        String tempPath = "Sessions\\" + String.valueOf(key) + "Temp.txt";
+        String toSession = newName + "," + score + "," + isin;
+        fs.deleteRow(mainPath, tempPath, toSession, 0, oldName);
+    }
+    public void editPlayerScore(String name ,int score, boolean isin, int key){
+        String mainPath = "Sessions\\" + String.valueOf(key) + ".txt";
+        String tempPath = "Sessions\\" + String.valueOf(key) + "Temp.txt";
+        String toSession = name + "," + score + "," + isin;
+        fs.deleteRow(mainPath, tempPath, toSession, 0, name);
+    }
+
+    public void deleteFiles(int key){
+        String mainPath = "Sessions\\" + String.valueOf(key) + ".txt";
+        String tempPath = "Sessions\\" + String.valueOf(key) + "Temp.txt";
+
+        File file = new File(mainPath);
+        try {
+            file.delete();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        file = new File(tempPath);
+        try {
+            file.delete();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
 
     }
 

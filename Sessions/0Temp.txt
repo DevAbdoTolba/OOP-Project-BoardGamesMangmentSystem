@@ -1,2 +1,0 @@
-BankElHaz
-playerName,score,state
