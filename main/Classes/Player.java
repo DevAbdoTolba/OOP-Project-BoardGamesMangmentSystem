@@ -39,7 +39,7 @@ public class Player {
 
     // Getters
 
-    protected String getName() {
+    public String getName() {
         return name;
     }
     
@@ -128,9 +128,10 @@ public class Player {
     
 
         static void printPlayers(Player[] players,int numOfPlayers) {
-            for (int i = 0; i < numOfPlayers; ++i) {
-                if(players[i].getIsIn())
-                System.out.println(i + 1 + "-" + players[i].getName() + ": " + players[i].getScore());
+            for (int i = 0; i < numOfPlayers; i++) {
+                if(players[i].getIsIn()){
+                    System.out.println( "-" + players[i].getName() + ": " + players[i].getScore());
+                } 
             }
         }
         /* The code above does the following:
@@ -157,6 +158,7 @@ public class Player {
                         if (ckEdit == 'y' || ckEdit == 'Y') {
                            
                             players[i].setScore(players[i].getScore()+edit) ;
+                            
                             System.out.println("(" + players[i].getName() + ") score is now: " + players[i].getScore() + "\n");
                             return;
                         }
